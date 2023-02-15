@@ -1,6 +1,6 @@
 // 2D FDM Seismic Forward (without Absorting Boundary)
 // Spatial accuracy: N = 2 - 16 (even number)
-// Author£ºCocklebur
+// Authorï¼šCocklebur
 // 2023 
 
 #include<stdio.h>
@@ -13,17 +13,17 @@ using namespace std;
 
 // Define Constant 
 #define PI 3.14159265359
-#define nx 400                                  //Íø¸ñµãx(m)£»
-#define nz 400                                  //Íø¸ñµãz(m)£»
-#define dh 4                                    //¿Õ¼ä²½³¤dh(m)£»
-#define dt 0.00025                              //Ê±¼ä²½³¤dt(s)£»
-#define Sx 200                                  //ÕğÔ´Î»ÖÃx(m)£»
-#define Sz 100                                  //ÕğÔ´Î»ÖÃz(m)£»
-#define F 20                                    //ÕğÔ´Ö÷Æµf(Hz)£º15-25Hz£»
-#define R 3                                     //ÕğÔ´LamdaÈ¡Öµ·¶Î§2-4£»
-#define Kmax 1000                               //Ê±¼äÑ­»·´ÎÊı£»
+#define nx 400                                  //ç½‘æ ¼ç‚¹x(m)ï¼›
+#define nz 400                                  //ç½‘æ ¼ç‚¹z(m)ï¼›
+#define dh 4                                    //ç©ºé—´æ­¥é•¿dh(m)ï¼›
+#define dt 0.00025                              //æ—¶é—´æ­¥é•¿dt(s)ï¼›
+#define Sx 200                                  //éœ‡æºä½ç½®x(m)ï¼›
+#define Sz 100                                  //éœ‡æºä½ç½®z(m)ï¼›
+#define F 20                                    //éœ‡æºä¸»é¢‘f(Hz)ï¼š15-25Hzï¼›
+#define R 3                                     //éœ‡æºLamdaå–å€¼èŒƒå›´2-4ï¼›
+#define Kmax 1000                               //æ—¶é—´å¾ªç¯æ¬¡æ•°ï¼›
 
-// ½¨ Á¢ ¶ş Î¬ ¶¯ Ì¬ Êı ×é º¯ Êı 
+// å»º ç«‹ äºŒ ç»´ åŠ¨ æ€ æ•° ç»„ å‡½ æ•° 
 double**dimension2(int x, int y)
 {
 	int i;
@@ -36,7 +36,7 @@ double**dimension2(int x, int y)
 	return m;
 }
 
-// ¾Ø Õó ½» »» ¸³ Öµ º¯ Êı 
+// çŸ© é˜µ äº¤ æ¢ èµ‹ å€¼ å‡½ æ•° 
 void exchange(double **u1, double **u2, double **u3)  
 {
 	int i, j;
@@ -51,22 +51,22 @@ void exchange(double **u1, double **u2, double **u3)
 // ************** Main Program Start **************
 int main()
 {
-// ¶¨ Òå ±ä Á¿ 
-	FILE *fp1, *fp2;                               // fp1´æ·Å²¨³¡Öµ£¬fp2´æ·ÅµØÕğ¼ÇÂ¼
-	int i, j, k, delta, N;                         // NÎª¿Õ¼ä¾«¶È£»deltaº¯Êı¿ØÖÆÊÇ·ñ¼ÓÔØÕğÔ´Ïî
-	double v;                                      // ËÙ¶ÈÄ£ĞÍv£»
-	double** u1, ** u2, ** u3, s[Kmax], ** rec;    // ²¨³¡Öµu1(past),u2(now),u3(future)£»ÕğÔ´º¯Êıs£»µØÕğ¼ÇÂ¼rec£»
+// å®š ä¹‰ å˜ é‡ 
+	FILE *fp1, *fp2;                               // fp1å­˜æ”¾æ³¢åœºå€¼ï¼Œfp2å­˜æ”¾åœ°éœ‡è®°å½•
+	int i, j, k, delta, N;                         // Nä¸ºç©ºé—´ç²¾åº¦ï¼›deltaå‡½æ•°æ§åˆ¶æ˜¯å¦åŠ è½½éœ‡æºé¡¹
+	double v;                                      // é€Ÿåº¦æ¨¡å‹vï¼›
+	double** u1, ** u2, ** u3, s[Kmax], ** rec;    // æ³¢åœºå€¼u1(past),u2(now),u3(future)ï¼›éœ‡æºå‡½æ•°sï¼›åœ°éœ‡è®°å½•recï¼›
 	double t1, t2, A;
 	u1 = dimension2(nx,nz);
 	u2 = dimension2(nx,nz);
 	u3 = dimension2(nx,nz);
 	rec = dimension2(nx, Kmax);
 
-// Ñ¡ Ôñ Éù ²¨ ·½ ³Ì ¿Õ ¼ä ½× Êı 
-	printf("Please enter the accuracy(support£º2-16 even number):\n");
+// é€‰ æ‹© å£° æ³¢ æ–¹ ç¨‹ ç©º é—´ é˜¶ æ•° 
+	printf("Please enter the accuracy(supportï¼š2-16 even number):\n");
 	scanf("%d", &N);
-// Ñ¡ Ôñ Ïë Òª Êä ³ö ²¨ ³¡ Öµ µÄ Ê± ¿Ì
-	printf("Which moments(ms) wavefield you want to output?\n");
+// é€‰ æ‹© æƒ³ è¦ è¾“ å‡º æ³¢ åœº å€¼ çš„ æ—¶ åˆ»
+	printf("Which iter of times do you want to output?\n");
 	//scanf("%d", &wave);
 	vector < int > wave;
 	int  p = 0;
@@ -74,13 +74,13 @@ int main()
 		cin >> p;
 		wave.push_back(p);
 	} while (getchar() != '\n');
-	cout << "---The wave field will be output :---" << endl;
+	cout << "---The wave field will be output at these moments(iter*dt) :---" << endl;
 	for (int p = 0; p < wave.size(); p++)
 	{
-		cout << "when time = " << wave.at(p) << endl;
+		cout << "when time = " << dt*wave.at(p) << endl;
 	}
-
-// ²¨ ³¡ Öµ ¸³ ³õ Öµ
+	
+// æ³¢ åœº å€¼ èµ‹ åˆ å€¼
 	for (i = 0; i < nx; i++)
 		for (j = 0; j < nz; j++)
 		{
@@ -95,13 +95,13 @@ int main()
 			rec[i][k] = 0;
 		}
 
-// Õğ Ô´ º¯ Êı
+// éœ‡ æº å‡½ æ•°
 	for (k = 0; k < Kmax; k++)                       
 	{
 		s[k] = exp(-pow(2*PI*F/R, 2)*pow(k*dt, 2))*cos(2*PI*F*k*dt);
 	}
 	
-// ¶¨ Òå ËÙ ¶È Ä£ ĞÍ
+// å®š ä¹‰ é€Ÿ åº¦ æ¨¡ å‹
 	for (i = 0; i < nx; i++)
 		for (j = 0; j < nz; j++) 
 		{
@@ -111,7 +111,7 @@ int main()
 				v = 2500;
 		}
 
-// N ½× ¿Õ ¼ä ¾« ¶È ²¨ ³¡ Öµ ¼Æ Ëã
+// N é˜¶ ç©º é—´ ç²¾ åº¦ æ³¢ åœº å€¼ è®¡ ç®—
 	
 	for (k = 0; k < Kmax; k++)
 	{
@@ -125,7 +125,7 @@ int main()
 				else
 					delta = 0;
 
-				//¿Õ¼ä¾«¶È2-16½×µÄÏµÊı¾ØÕó
+				//ç©ºé—´ç²¾åº¦2-16é˜¶çš„ç³»æ•°çŸ©é˜µ
 				double c[8][8] = 
 				{ 
 					{1.0},
@@ -149,7 +149,7 @@ int main()
 				u3[i][j] = 2 * u2[i][j] - u1[i][j] + pow(v * dt / dh, 2) * A + s[k] * delta;
 
 				if (j == Sz)
-					rec[i][k] = u3[i][Sz];                  // Êä³öµØÕğ¼ÇÂ¼£»
+					rec[i][k] = u3[i][Sz];                  // è¾“å‡ºåœ°éœ‡è®°å½•ï¼›
 			}
 
 		}
@@ -158,7 +158,7 @@ int main()
 		for (int p = 0; p < wave.size(); p++)
 		{
 
-			if ((k + 1) == wave.at(p))                                      // K = wave Ê±²¨³¡ÖµÊä³ö£»
+			if ((k + 1) == wave.at(p))                                      // K = wave æ—¶æ³¢åœºå€¼è¾“å‡ºï¼›
 			{
 				char filename[20];
 					sprintf(filename, "wavefront_%d.dat", wave.at(p));
